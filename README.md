@@ -25,7 +25,7 @@ rest of our models have passed the 89% classification accuracy.
 
 * Poster Slide (90x120 cm²)
 Speaker Fluency Level Classification Using Machine Learning Techniques - Poster
-![](https://github.com/agrija9/Avalinguo-Dataset-Speaker-Fluency-Level-Classification-Paper-/blob/master/Poster/RIIAA%20Poster%202018.pdf)
+![](https://github.com/agrija9/Avalinguo-Dataset-Speaker-Fluency-Level-Classification-Paper-/blob/master/Poster/Figures/RIIAA%20Poster%202018.gif)
 
 
 **Related Work**

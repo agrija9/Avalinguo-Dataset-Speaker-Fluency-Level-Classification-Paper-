@@ -33,3 +33,48 @@ Speaker Fluency Level Classification Using Machine Learning Techniques - Poster
 I have placed all the data related to this work in another repository. In order to experiment with the code of this repo, it is necessary to first download the data from that repository.
 * [Avalinguo Audio Dataset for Speaker Fluency Classification ](https://github.com/agrija9/Avalinguo-Audio-Set)
 
+**Dependencies**
+
+* Anaconda 2 with Python 2.7. (Python 3.6 not tested yet)
+* Librosa (audio visualization and feature extraction)
+* Sci-kit learn
+* Keras (Theano backend)
+* Numpy, Matplotlib
+* Pandas (data visualization)
+
+**Jupyter Notebook**
+
+A Jupyter Notebook (Python 2.7 Kernel) is added to illustrate the workflow. 
+
+The scripts for feature extraction and classification are contained in the 
+```Avalinguo Audioset Experiment.ipynb``` file and are all loaded in the notebook sequentally.
+
+They can also be found as separate files in the ```Individual Scripts``` folder.
+
+Once the audio files from the Avalinguo Audio Dataset have been donwloaded and are placed in the same folder of the Jupyter Notebook, running the Feature Extraction cell creates a numpy array corresponding to the computed features (```feature.npy```) and one for labels (```label.npy```). These files will be saved in the current directory.
+
+Thereafter, one can proceed to train the models with these two files.
+
+**Audio features extracted**
+- MFCC
+- ZCR
+- Spectral Flux
+- Root Mean Square Energy
+
+**Classifiers implemented**
+- Support Vector Machine (SVM)
+- Random Forest (RF)
+- Convolutional Neural Network (CNN)
+- Multilayer Perceptron (MLP)
+- Recurrent Neural Network (RNN)
+
+**Accuracies obtained**
+**Note**: out of 1424 audio clips from the Avalinguo Audioset, with 30% test data, the reached accuracies are the following:
+- SVM: 94.39%
+- RF: 93.45%
+- MLP: 92.52%
+- CNN: 92.75% 
+- RNN: 89.01%
+
+More details on the training hyper-parameters and accuracies achieved can be found in the ```Code/Experimental Results``` folder, as well as in the attached Report/Report Final Draft.pdf``` file.
+

@@ -18,7 +18,7 @@ rest of our models have passed the 89% classification accuracy.
 
 **Report:**
 
-* Author Report Version: [Speaker Fluency Level Classification Using Machine Learning Techniques] (https://github.com/agrija9/Avalinguo-Dataset-Speaker-Fluency-Level-Classification-Paper-/blob/master/Report/Report%20Final%20Draft.pdf)
+* Author Report Version: ![Speaker Fluency Level Classification Using Machine Learning Techniques] (https://github.com/agrija9/Avalinguo-Dataset-Speaker-Fluency-Level-Classification-Paper-/blob/master/Report/Report%20Final%20Draft.pdf).
 
 
 **Additional material**

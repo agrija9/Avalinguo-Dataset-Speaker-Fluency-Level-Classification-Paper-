@@ -1,0 +1,2962 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\date{}
+\usepackage{multicol}
+\pagenumbering{gobble}
+\end_preamble
+\use_default_options true
+\begin_modules
+customHeadersFooters
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1.5cm
+\rightmargin 1cm
+\bottommargin 1.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\series bold
+\size larger
+\color black
+Speaker Fluency Level Classification Using Machine Learning Techniques
+\end_layout
+
+\begin_layout Author
+
+\shape italic
+Alan Preciado Grijalva
+\begin_inset Formula $^{*}$
+\end_inset
+
+, Ramón F.
+ Brena
+\end_layout
+
+\begin_layout Address
+\paragraph_spacing other 0.5
+\align center
+
+\size large
+\color black
+Grupo de Investigación en Sistemas Inteligentes, Tecnológico de Monterrey,
+ México
+\family typewriter
+\size small
+ 
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+\color black
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+\color black
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+\color black
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+ *apreciado42@uabc.edu.mx
+\end_layout
+
+\begin_layout Abstract
+
+\color black
+Level assessment for foreign language students is necessary for putting
+ them in the right learning group, but it is also a very time-consuming
+ task, so we propose to automate the evaluation of speaker fluency level
+ by implementing machine learning techniques.
+ This work presents an audio processing system capable of classifying the
+ level of fluency of non-native English speakers using five different machine
+ learning models.
+ As a first step, we have built our own dataset, which consists of labeled
+ audio conversations in English between people ranging in different fluency
+ domains/classes (low, intermediate, high).
+ We segment the audio conversations into 5s non-overlapped audio segments
+ and thereafter perform feature extraction on them.
+ After this, we have tunned the appropriate number of Mel cepstral coefficients
+ to be extracted extracted from the audios by evaluating accuracy performance.
+ Thereafter, we have added the zero-crossing rate, root mean square energy
+ and spectral flux features, proving that this improves model performance
+ overall.
+ Out of a total of 1424 audio segments, with 70% training data and 30% test
+ data, our trained models have achieved a classification accuracy as high
+ as 94.39% (support vector machine), the rest of our models have passed the
+ 89% classification accuracy.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{multicols}{2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+
+\size large
+\color black
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+1.
+ Introduction
+\end_layout
+
+\begin_layout Standard
+The development of artificial intelligence (AI) - powered applications has
+ been growing remarkably over the last decade [1].
+ In this context, mobile apps such as Cortana (Microsoft), Alexa (Amazon)
+ or Siri (Apple) have proven to be a useful tool for daily human tasks.
+ Other examples of AI-powered devices are autonomous cars [2], personal
+ management, financial assistance and language learning apps.
+ Most of these applications are integrating smoothly in our society.
+ With regards to language learning apps, there are currently several software
+ language companies that are employing AI techniques to improve user engagement
+ and learning experience.
+ The main promise of AI-powered language learning apps is that users will
+ achieve basic proficiency in a foreign language as they progress through
+ their lessons within a few months and with a small amount of time studying
+ per day, all being guided by AI.
+ 
+\end_layout
+
+\begin_layout Standard
+A slightly different language learning scenario is the one involving two
+ or more (known or unknown) persons who are actively looking for tandem
+ groups to improve their language skills.
+ Currently, our group at ITESM is working on the construction of an AI-powered
+ mobile app for language learning called 
+\shape italic
+\color black
+Avalinguo
+\shape default
+\color inherit
+.
+ Avalinguo is an internet-based system, and it merges 
+\color black
+virtual reality with AI to create 
+\begin_inset Quotes eld
+\end_inset
+
+digital classrooms
+\begin_inset Quotes erd
+\end_inset
+
+ in which people, each one with a corresponding 
+\shape italic
+avatar
+\shape default
+, can practice a language [3].
+ 
+\end_layout
+
+\begin_layout Standard
+Avalinguo has many benefits such as 1) users are not attached to fixed schedules
+, 2) it is portable and can be used anywhere (internet provided), 3) real-time
+ real-person interaction, 4) user privacy is kept because of the use of
+ avatars, 5) it clusters users based on profiles (target language, interests,
+ etc.), 6) due to clustering, each login presents new possible matches with
+ other users (recommendation system), 7) it contributes to a relaxed and
+ casual participation by implementing fluency monitoring and topic recommendatio
+n during conversations and 8) its cost is inferior to particular online
+ courses.
+ 
+\end_layout
+
+\begin_layout Standard
+In this paper, we report work done related to point 7 by presenting the
+ advancements corresponding fluency monitoring during a conversation between
+ two or more persons.
+ Our approach to this problem is based on audio analysis, starting with
+ audio feature extraction and afterwards training machine learning (ML)
+ models to perform classification of audio segments provided labeled target
+ classes.
+ Previously, there have been advancements in environmental sound classification
+ [4] and real-time speech recognition based on neural networks [5].
+ In these cases, the audio sets have been environmental sounds (rain, cars,
+ birds, etc.) and recorded speech, music and noise sounds, respectively.
+ In our case, to approach the general problem of fluency level monitoring
+ of each individual during a conversation, we have first proceeded to build
+ our own audio set (
+\shape italic
+\color black
+Avalinguo audio set
+\shape default
+\color inherit
+), the details of the audio set are presented in 
+\shape italic
+\color black
+section 2
+\shape default
+\color inherit
+.
+ Thereafter, we have split each conversation in 5s non-overlapped segments,
+ these segments have had some features extracted (mel coefficients + zero
+ crossing rate + root-mean-square-energy + spectral flux).
+ Later on, the feature vectors are fed into a classification model to train
+ it and evaluate its performance using accuracy metrics.
+ Our defined fluency classes are three: low fluency, intermediate fluency,
+ and high fluency.
+ We have compared five ML models, namely, multi-layer perceptron (MLP),
+ support vector machines (SVM), random forest (RF), convolutional neural
+ networks (CNN) and recurrent neural networks (RNN).
+ The workflow described previously is the standard ML approach for the audio
+ analysis of sound events [6].
+\end_layout
+
+\begin_layout Standard
+The main hypotheses that we are trying to answer here is: 
+\shape italic
+\color black
+Given a labeled balanced audio set fulfilling predefined fluency metrics,
+ can we construct a model capable of classifying the level of fluency of
+ an audio segment? 
+\end_layout
+
+\begin_layout Standard
+
+\color black
+If so, this would allow us to determine whether a group in a conversation
+ needs a recommended topic to keep it flowing.
+ Also, we would be able to tell if Person A has a lower fluency than Person
+ B and needs to be re-assigned to a lower fluency level group (same for
+ the inverse case).
+\end_layout
+
+\begin_layout Standard
+Our final classification results have achieved accuracies higher than 90%
+ (except for one model), being the highest of up to 94.39% for an SVM.
+ As a first step, we have determined the appropriate number of Mel coefficients
+ (MFCCs) extracted to ensure high accuracies.
+ Thereafter, we've proved that adding features to the baseline MFCCs such
+ as zero-crossing-rate (ZCR), root-mean-squared-energy (RMSE) and spectral
+ flux onset strength envelope (SF) increased overall model performance.
+\end_layout
+
+\begin_layout Section*
+
+\size large
+\color black
+2.
+ Avalinguo audio set
+\end_layout
+
+\begin_layout Standard
+Having a clean-high quality data set is a must for any machine learning
+ project.
+ The main challenge for a model's architecture is to be able to grasp patterns
+ among data so that it can be complex enough to perform accurate predictions/cla
+ssifications.
+ This can be affected if mislabeled or missing data is contained in the
+ data set.
+ On the other side, the technical limitations of a model have to do with
+ the computational power available and the amount of labeled data required
+ for appropriate training.
+\end_layout
+
+\begin_layout Standard
+Unfortunately for us, there are no
+\shape italic
+\color black
+ publicly
+\shape default
+\color inherit
+ available data sets that fulfill our research purposes.
+ Whilst the community has been working extensively on the construction and
+ support of audio sets [8], it has not been possible for us to address an
+ audio set for audio-speech analysis composed of conversations by non-native
+ English speakers.
+ There are indeed audio corpora of people speaking English such as the UCSB
+ and MUSAN [9-10], but no audio set of people who are actually learning
+ the language (by this we mean people who hesitate when speaking, people
+ who take long pauses when speaking, or also people who just speak too slowly).
+ 
+\end_layout
+
+\begin_layout Standard
+We are mostly interested in recordings of this kind because the Avalinguo
+ system will deal mainly with non-native English speakers who will present
+ the speaking characteristics mentioned before.
+ Due to this reason, we have decided to build our own audio set; 
+\shape italic
+\color black
+Avalinguo audio set
+\shape default
+ [11].
+ The Avalinguo audio set is a collection of audio recordings of people whose
+ language fluency ranges from low to high.
+ The audio recordings have the next common characteristics:
+\end_layout
+
+\begin_layout Itemize
+Spontaneous (non-scripted) conversations
+\end_layout
+
+\begin_layout Itemize
+Random conversation topics chosen by speakers
+\end_layout
+
+\begin_layout Itemize
+Audios recorded with low-to-no background noise
+\end_layout
+
+\begin_layout Standard
+The sources who provided the audio recordings are three: Friends/Family,
+ Language Center (ITESM), and Youtube 
+\color black
+Audios.
+ Each audio recording comprises a conversation that lasts around 10 minutes
+ and has a wide range of topics from athletes speaking to physicists talking
+ about science to sisters talking about their daily activities.
+ All of these 10 minutes conversations were cut in 5s equally-sized segments
+ and were thereafter manually labeled and assigned into one of the three
+ fluency classes.
+
+\color inherit
+ 
+\color black
+Summarizing, the audio set consists of 1420 (5s duration) non-overlapped
+ audio segments comprising three fluency classes (low, intermediate and
+ high fluency).
+
+\color inherit
+ This is about 2 hours of recordings.
+ The audios have sample rates ranging from 22050 Hz to 48000 Hz, are mono
+ and multi-channel and were converted to MP3 format.
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+Figure 1
+\shape default
+ shows the class distribution of the audio set.
+ The intermediate class has a higher percentage because, technically, it
+ is easier to collect audios of people ranging in the intermediate level
+ rather than the low level.
+ Despite this percentage differences, we have kept all audio files to avoid
+ reducing the size of the data set.
+ Note that this can be considered a small audio set (ca.
+ 2 hours) if it is compared with some public sets (such as Google AudioSet).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/Class Distribution.png
+	lyxscale 5
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Avalinguo audio set class distribution.
+ The set contains a total of 118.65 minutes of recorded audio.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+
+\size normal
+\color black
+2.1 Fluency metrics
+\end_layout
+
+\begin_layout Standard
+Previously, we mentioned that each audio segment was labeled manually.
+ In order to do this, we have defined baseline fluency levels definitions:
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Low 0:
+\series default
+ Person uses very simple expressions and talks about things in a basic way.
+ Speaks with unnatural pauses.
+ Needs the other person to talk slowly to understand.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Low 1
+\series default
+: Person can understand frequently used expressions and give basic personal
+ information.
+ Person can talk about simple things on familiar topics but still speaks
+ with unnatural pauses.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Intermediate 2:
+\series default
+ Can deal with common situations, for example, traveling and restaurant
+ ordering.
+ Describes experiences and events and is capable of giving reasons, opinions
+ or plans.
+ Can still make some unnatural pauses.
+ 
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing single
+
+\series bold
+Intermediate 3:
+\series default
+ Feels comfortable in most situations.
+ Can interact spontaneously with native speakers but still makes prolonged
+ pauses or incorrect use of some words.
+ People can understand the person without putting too much effort.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+High 4:
+\series default
+ Can speak without unnatural pauses (no hesitation), doesn't pause long
+ to find expressions.
+ Can use the language in a flexible way for social, academic, and professional
+ purposes.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+High 5:
+\series default
+ Native-level speaker.
+ Understands everything that reads and hears.
+ Understand humor and subtle differences.
+\end_layout
+
+\begin_layout Standard
+There is no single-universal definition for fluency.
+ Actually, each language institution establishes a fluency metric for scoring
+ based on their internal parameters.
+ In our case, to score speaker fluency, we have taken the baseline definitions
+ described above and have made specific emphasis on the next points regarding
+ the concept:
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+1)
+\series default
+ Our metric is mainly sound based.
+ With "fluent" meaning speaking without unnatural pauses.
+
+\series bold
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+2)
+\series default
+ If there is hesitation (slowness or pauses) when speaking, then that affects
+ the fluency score of the speaker.
+
+\series bold
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+3)
+\series default
+ There is a distinction between fluency and proficiency.
+ Meaning that fluency is someone able to feel comfortable, sound natural,
+ and with the ability to manipulate all the parts of a sentence at will.
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Subsection*
+
+\size normal
+\color black
+2.2 Audio segments spectrograms
+\end_layout
+
+\begin_layout Plain Layout
+–> WILL NOT DO THIS SECTION
+\end_layout
+
+\begin_layout Plain Layout
+* No clear reason in this section why you might need graphical interpretation
+ of the features you are working with ...
+\end_layout
+
+\begin_layout Plain Layout
+* Graphs of Librosa Features for Segments ( Check [Y] )
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+
+\series bold
+\size large
+\color black
+3.
+ Experimental Framework
+\end_layout
+
+\begin_layout Standard
+Our experimental procedure is the standard ML approach for analysis of sound
+ events [12].
+ Our system consists of three main steps (see 
+\shape italic
+Figure 2
+\shape default
+): Feature extraction, classification and output of the predicted label
+ with higher probability for individual segments (frames).
+ First, we perform feature extraction on each audio frame.
+ Thereafter, the feature vector is fed into a classifier which outputs the
+ most probable class based on previous training.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/audio analysis system.pdf
+	lyxscale 90
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Pipeline of an audio classification system.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+
+\size normal
+\color black
+3.1 Audio segmentation
+\end_layout
+
+\begin_layout Standard
+Audio segmentation is one of the most important preprocessing steps in most
+ audio applications [13].
+ Research groups often propose novel segmentation frameworks in order to
+ improve audio applications such as speech recognition [14].
+ In our case, our segmentation method simply consists on cutting the audio
+ files into 5s non-overlapped segments and manually assign a frame to a
+ single person (for example, Frame 1 belongs to person A).
+ If a frame contains more than one person speaking, we assign it to the
+ person that speaks more in it.
+ After this, we proceed to label frames according to their fluency level.
+ The segments were cut from the audios using a python module called Pydub
+ 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "Pydub: High level python interface for audio manipulation"
+target "https://github.com/jiaaro/pydub"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing single
+Due to the way we proceeded, we didn't work with overlapped segments; since
+ we are interested in differentiating persons among a conversation, this
+ approach would have had ended as non-overlapped segments but with shorter
+ time durations.
+ The other approach that we explored was using voice activity detection
+ (VAD), this approach creates audio segments when it detects a different
+ voice or a pause during a conversation.
+ However, the VAD interface [15] suppresses any possible silence within
+ the conversation, that is, it only creates segments when people are speaking.
+ Since we are interested in detecting possible silences and pauses in each
+ audio segment, we have discarded this approach.
+ 
+\end_layout
+
+\begin_layout Subsection*
+\paragraph_spacing other 0.7
+
+\size normal
+\color black
+3.2 Feature Extraction
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing single
+This is the step where features are extracted.
+ We have written a python script to perform feature extraction for the created
+ audio segments using a python package called Librosa 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "LibROSA: python package for music and audio analysis."
+target "https://librosa.github.io/librosa/"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ (among many functionalities, Librosa is commonly used for feature extraction,
+ allowing to compute more than thirty audio features).
+ The audio frames 
+\begin_inset Formula $f_{0},...,f_{n}$
+\end_inset
+
+, have thus their corresponding feature vectors 
+\begin_inset Formula $p_{0},...,p_{n}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+For the results presented in this paper, we have first varied the number
+ of MFCCs extracted, this with the purpose to estimate the appropriate number
+ of MFFCs to extract.
+ Later on, we have added the ZCR, RMSE and SF to determine if this improves
+ model performance.
+ 
+\end_layout
+
+\begin_layout Standard
+Besides feature extraction, Librosa allows to plot audio spectrograms using
+ its 
+\shape italic
+display.specshow
+\shape default
+ function.
+ For the sake of completeness, we show some commonly spectrograms for a
+ single audio frame (see
+\shape italic
+ Figure 3
+\shape default
+).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/feature visualization.pdf
+	lyxscale 140
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Spectral feature plots (single frame).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Some comments on Figure 3 –> Do I need them??
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+
+\size normal
+\color black
+3.3 Audio Classification
+\end_layout
+
+\begin_layout Standard
+In this work we are interested in comparing different classification frameworks,
+ namely, multilayer perceptrons, convolutional neural networks, recurrent
+ neural networks, support vector machines and random forest.
+ The main goal here is to test each model classification accuracies as we
+ vary the number of features extracted.
+\end_layout
+
+\begin_layout Standard
+The proposed multilayer perceptron architecture has two hidden layers comprising
+ 512 x 512 neurons followed by an output layer consisting of three neurons
+ (one representing each fluency class).
+ Each neuron within the hidden layers uses the relu function as the activation
+ function.
+ For the output layer, we implement the softmax function to convert the
+ output into class probabilities.
+ Finally, the predicted label is the class with the highest probability.
+\end_layout
+
+\begin_layout Standard
+The convolutional neural network architecture has four hidden layers, the
+ first two have 64 convolution filters and the following two have 32 convolution
+ filters.
+ The output layer consists of three neurons corresponding to our three classes
+ and similarly to the multilayer perceptron, the activation function of
+ the hidden layers is the relu and for the output layer is the softmax function.
+\end_layout
+
+\begin_layout Standard
+The recurrent neural network architecture is a long-short-therm-memory (LSTM)
+ [18].
+ It has two hidden layers comprising 256 x 32 neurons and three neurons
+ corresponding to the output layer.
+ This architecture also implements the same activation functions as the
+ other two networks.
+ 
+\end_layout
+
+\begin_layout Standard
+In 
+\shape italic
+table 1
+\shape default
+ we summarize the architectures described above.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align left
+
+\size footnotesize
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Neural Network
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Hidden layers
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Neurons
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Activation 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+MLP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+512x512x3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+relu, softmax
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+CNN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+64x64x32x32x3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+relu, softmax
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+RNN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+256x32x3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+relu, softmax
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Neural networks architectures.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The other two models are traditional machine learning models.
+ One is a support vector machine.
+ This model has a basic construction (similar to the one proposed in the
+ scikit-learn documentation).
+ The main hyper-parameter of the estimator that we varied was the 
+\shape italic
+regularization parameter C
+\shape default
+.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "Link to SVM scikit-learn documentation."
+target "http://scikit-learn.org/stable/modules/svm.html"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The other model is a random forest.
+ This model also has a basic construction in the sense that our python script
+ only initializes the model, trains it and then evaluates its performance.
+ The single parameter we varied here was the 
+\shape italic
+number of estimators
+\shape default
+ (number of trees).
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "Link to RF scikit-learn documentation."
+target "http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+
+\size large
+\color black
+4.
+ Experimental Results
+\end_layout
+
+\begin_layout Standard
+In this section we present our feature extraction and classification results.
+ The main data analysis tools that we have used for our experiments are
+ Anaconda (under Python 2.7), Keras (backend Tensorflow), Scikit-learn, Librosa,
+ Pydub and Pandas.
+ 
+\end_layout
+
+\begin_layout Standard
+We have evaluated different model constructions, here, we report the model
+ architectures (from 
+\shape italic
+Table 1
+\shape default
+) and hyper-parameters that achieved the highest classification accuracies.
+ 
+\end_layout
+
+\begin_layout Standard
+As a first step, we explore the effect of varying the number of Mel coefficients
+ (
+\begin_inset Formula $N_{mel}$
+\end_inset
+
+) on the final accuracy.
+ Increasing the value 
+\begin_inset Formula $N_{mel}$
+\end_inset
+
+ increases the complexity of a model, thus, it is our duty to find out the
+ trade-off between the appropriate 
+\begin_inset Formula $N_{mel}$
+\end_inset
+
+ and the maximum achievable accuracy.
+ There is a point in which adding more 
+\begin_inset Formula $N_{mel}$
+\end_inset
+
+ doesn't translate into considerable improvements (this can either increase
+ accuracy by a small percentage or decrease it).
+ With this experiment, we are able to get the appropriate 
+\begin_inset Formula $N_{mel}$
+\end_inset
+
+ for our data set.
+\end_layout
+
+\begin_layout Standard
+As a second step, we show how adding features such as ZCR, RMSE and SF to
+ the baseline chosen 
+\begin_inset Formula $N_{mel}$
+\end_inset
+
+ boosts accuracy in most of the cases.
+\end_layout
+
+\begin_layout Subsection*
+
+\size normal
+\color black
+4.1 Classification Experiments
+\end_layout
+
+\begin_layout Standard
+We have chosen 
+\series bold
+SVM
+\series default
+ and 
+\series bold
+RF
+\series default
+ as our models based on research regarding the most appropriate ML approaches
+ for audio classification.
+ Both of these models have proven to be good candidates for the classification
+ of sound events, such as the
+\shape italic
+ ECS-50
+\shape default
+ audio set, as proposed by Piczak [17].
+ 
+\end_layout
+
+\begin_layout Standard
+We are also comparing three different neural network models; the 
+\series bold
+MLP
+\series default
+ architecture has proven to classify accurately speech, audio and noise
+ audio of the 
+\shape italic
+MUSAN
+\shape default
+ audio set as reported by Wetzel et al.
+ [5], 
+\series bold
+CNNs
+\series default
+ have also been used to classify the 
+\shape italic
+ECS-50
+\shape default
+ audio set [4] and have also been used to classify audio without performing
+ prior feature extraction, in the sense that the network itself extracts
+ corresponding features from the waveform sample [12], lastly, we have also
+ employed 
+\series bold
+RNNs
+\series default
+ because according to Huy Phan et al., this type of neural networks achieved
+ an accuracy of 97% in the classification of sound scenes from the 
+\shape italic
+LITIS Rouen
+\shape default
+ dataset [19].
+\end_layout
+
+\begin_layout Standard
+All our models were randomly sampled with 70% training data and 30% test
+ data.
+ Given the 1424 total audio frames of the Avalinguo audio set, this corresponds
+ to 926 audio frames for training and 498 audio frames for testing.
+\end_layout
+
+\begin_layout Standard
+In our first experiment, we have trained and evaluated accuracy performance
+ with increasing values of 
+\begin_inset Formula $N_{mel}$
+\end_inset
+
+.
+ 
+\shape italic
+Table 2
+\shape default
+ contains the achieved accuracies as we set 
+\begin_inset Formula $N_{mel}=5,10,12,20$
+\end_inset
+
+.
+ In each case, the accuracy improved considerably as the value 
+\begin_inset Formula $N_{mel}$
+\end_inset
+
+ increased.
+ We obtained an accuracy as high as 94.39% with the SVM for 
+\begin_inset Formula $N_{mel}=20$
+\end_inset
+
+.
+ We also trained our models with 
+\begin_inset Formula $N_{mel}=30,40$
+\end_inset
+
+ but this only increased feature space dimensionality but not accuracy.
+ From this experiment, we see that the commonly number of Mel coefficients
+ used for audio-analysis (12 to 20) applies to our data as well.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+* Why did you run until 20 and not more MFCCs?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Model
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SVM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+86.00% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+89.49% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+92.06% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+94.39% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+84.80% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+89.00% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+90.42% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+92.29% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MLP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+78.00% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+88.78% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+89.01% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+92.05% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CNN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+80.00% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+85.04% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+87.61% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+93.69% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RNN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+78.90% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+85.04% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+86.44% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+87.00% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Accuracy performance of the classification models for different 
+\begin_inset Formula $N_{mel}$
+\end_inset
+
+ values.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The second stage consists in taking the 
+\begin_inset Formula $N_{mel}=20$
+\end_inset
+
+ as baseline features and test extra spectral features to see the outcome.
+ After doing feature exploration in our runs, we have ended up adding ZCR
+ (as proposed in [5]), as well as RMSE and SF (as proposed in [7]).
+ This translates to a 23-dimensional feature space (20 MFCCS + 1 ZCR + 1
+ RMSE + 1 SF).
+\end_layout
+
+\begin_layout Standard
+The architecture of our models combined with the total final features yields
+ a runtime of about 1 ms per classification on a 2.4 GHz single core CPU
+ for the neural networks.
+ For the SF and RF, it takes about two seconds to train completely.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+Table 3
+\shape default
+ shows the obtained accuracies with the extra features.
+ Once again, the SVM achieved the highest accuracy followed by the RF.
+ The MLP and CNN obtained similar results, the one big difference is that
+ the MLP outperformed the CNN in computing time; the former took about 1min
+ to train completely, whereas the latter took about 5 mins to train completely.
+ The RNN obtained the lowest accuracy and it took about 7 mins to completely
+ train.
+ 
+\end_layout
+
+\begin_layout Standard
+In contrast with the results from 
+\shape italic
+table 2
+\shape default
+ (case 
+\begin_inset Formula $N_{mel}=20$
+\end_inset
+
+), the results in 
+\shape italic
+table 3
+\shape default
+ (
+\begin_inset Formula $N_{mel}=20$
+\end_inset
+
+ + extra features) show that the performance of the SVM remained equal,
+ the CNN performance decreased by around 1% and the other three models increased
+ their accuracy.
+ We present graphically this comparison with a bar plot in 
+\shape italic
+Figure 4
+\shape default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+
+\size tiny
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Features
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+SVM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+RF
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+MLP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+CNN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+RNN
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size tiny
+\begin_inset Formula $N_{mel}$
+\end_inset
+
++ZCR+RMSE+SF
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+94.39% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+93.45% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+92.52% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+92.75% 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+89.01% 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Accuracy performance of the classification models 20 MFCCs + extra features.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+* Bar Plot of best accuracies with each classiffier (refering to table 3)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/bar plot models accuracies.png
+	lyxscale 4
+	scale 27
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Accuracy comparison when using 
+\begin_inset Formula $N_{mel}=20$
+\end_inset
+
+ (blue bars) and with extra features (red bars).
+ For sake of visualization, the accuracy of the plots starts at 80%.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+2.
+ Why couldn't improve on SVMs?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With these results, we have that the SVM followed by the RF are the models
+ that best classify our data set.
+ The reason why the SVM couldn't improve further with the extra features
+ can have to do with the design of the model itself.
+ In this case, we varied the choice of the regularization parameter 
+\shape italic
+C
+\shape default
+ but couldn't obtain any better performance.
+ In the case of the RF, we increased the 
+\shape italic
+number of trees
+\shape default
+ when we added the other features, gaining more than 1% accuracy.
+ 
+\end_layout
+
+\begin_layout Standard
+The neural networks have slightly underperformed comparing them with the
+ other two models.
+ But they have achieved decent accuracies as well.
+ The main difference between the deep learning and the traditional models
+ has to do with the time it takes them to train, requiring the latter way
+ less computational time.
+ The under-performance of the neural networks does not exclude them from
+ this analysis at all, it can be that a different architecture can boost
+ their accuracies.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+1.
+ Isn't it supposed to be that the NNs have to outstand among the other methods?
+\end_layout
+
+\begin_layout Plain Layout
+3.
+ Why did it decrease for CNNs?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+4.
+ I have played with other features such as: tonnetz, chroma, etc.
+ but did not present any further improvement
+\end_layout
+
+\begin_layout Plain Layout
+–> I won't report this, I don't think it is that relevant ...
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+5.
+ Plot of confusion matrix, interpret them –> For which model??
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In order to evaluate the quality of the output of the classifiers we have
+ used a confusion matrix.
+ The corresponding map can be seen in 
+\shape italic
+Figure 5
+\shape default
+ and it belongs to the SVM results, which trained to classify among our
+ three fluency levels, has achieved a classification accuracy of 94.39%.
+ The matrix was plotted using the 
+\shape italic
+sklearn.metrics
+\shape default
+ module from scikit-learn [20].
+ From the plot, we see that the classifier actually predicted all the high
+ labels (classes) correctly.
+ For the intermediate label, it misclassified 15 audio frames either as
+ a low or high label, this is understandable since, intuitively, it is harder
+ to discriminate if a frame lies in the intermediate level or if it belongs
+ to any of its 
+\begin_inset Quotes eld
+\end_inset
+
+neighbors
+\begin_inset Quotes erd
+\end_inset
+
+.
+ For the low label results, the SVM predicted two audio frames as highly
+ fluent whilst they belong to the low fluency class, this could be the 
+\begin_inset Quotes eld
+\end_inset
+
+most critical
+\begin_inset Quotes erd
+\end_inset
+
+ mistake our model has done by predicting that two audios whose fluency
+ is low, actually has an almost native fluency.
+ However, in the overall, the model has performed remarkably.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+* What we want here is the interpreation of 'far' misclassifications, meaning
+ that the model is doing an important mistake by predicting some high audios
+ that are actually low, the inverse case didn't actually happen.
+ The intermediate class is more understandable to have misclassification
+ in both sides ...
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/SVM Confusion Matrix.png
+	lyxscale 10
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Confusion matrix for the SVM trained and tested with the Avalinguo audio
+ set.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The link to the repository with the Python script to replicate this paper
+ can be found in [16].
+ All the technical requirements to run the code are documented in the attached
+ repository.
+\end_layout
+
+\begin_layout Section*
+
+\size large
+\color black
+5.
+ Conclusions
+\end_layout
+
+\begin_layout Standard
+In this work, we have presented an audio processing system capable of determinin
+g the level of fluency of non-native English speakers, taken 5s non-overlapped
+ audio segments from the Avalinguo audio set.
+ We have used five different ML models to classify audio segments into low,
+ intermediate or high fluency levels.
+ Each model was capable of classifying audio frames with an accuracy of
+ more than 90% (except one classifier that reached 89%).
+ 
+\end_layout
+
+\begin_layout Standard
+As a first step, we have determined that the appropriate number of Mel cepstral
+ coefficients for our data set is 20.
+ Thereafter, with these baseline features, we have added zero-crossing rate,
+ root mean square energy and spectral flux features to improve the accuracy
+ of our models.
+ The highest accuracies were reached by SVM and RF, with 94.39% and 93.45%,
+ respectively.
+ The neural networks achieved also remarkable accuracies (MLP 92.52%, CNN
+ 92.75%, RNN 89.01%).
+\end_layout
+
+\begin_layout Standard
+We have also reported the construction and details of the Avalinguo audio
+ set, whose main characteristic is that it is composed by conversations
+ of people who are learning the English language.
+\end_layout
+
+\begin_layout Standard
+The accuracies that we have achieved can be considered high but nonetheless
+ there is room for improvement.
+ For example, tunning more precisely the hyper-parameters of the SVM and
+ RF estimators by running grid searches.
+ In the case of the neural networks architecture, we can still explore adding
+ specific hidden layers and modifying the number of neurons per layer.
+ Added to this, as other works have proposed, exploring with other audio
+ features such as chromagram, Mel spectrograms or spectral contrast can
+ improve accuracy.
+ We must take into account that we are only defining three fluency classes,
+ in order to make fluency levels more specific, we would have to define
+ more fluency classes in between.
+ This poses a challenge for the accuracy performance.
+\end_layout
+
+\begin_layout Standard
+The main technical limitation that we have right now is that the Avalinguo
+ audio set (with about 2 hrs of recordings) can be considered a small set.
+ Part of our future work consists in maintaining and increasing the size
+ of the audio set.
+ Another technical challenge consists in automatically identifying persons
+ within a conversation and at the same time, capturing the silences and
+ pauses they can make.
+ 
+\end_layout
+
+\begin_layout Standard
+This project will be integrated to the bigger Avalinguo system.
+ Here, we will have to deal with the classification of live conversations,
+ for example.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+* Good results obtained: accuracies are this high because we only have 3
+ classes? (DONE)
+\end_layout
+
+\begin_layout Plain Layout
+* I didn't tune the hyper-parameters of my estimator -.- (SVM): http://scikit-lea
+rn.org/stable/modules/grid_search.html#grid-search (DONE)
+\end_layout
+
+\begin_layout Plain Layout
+* I could work out better NN architectures -.- (DONE)
+\end_layout
+
+\begin_layout Plain Layout
+* As other works propose, the addition of other features can improve performance
+ (DONE)
+\end_layout
+
+\begin_layout Plain Layout
+* The future challenges and limitations: small dataset, can we do automatically
+ person splitting without sacrificing silences? (DONE)
+\end_layout
+
+\begin_layout Plain Layout
+* Next big thing is to integrate it –> Avalinguo system (DONE)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+
+\size large
+\color black
+6.
+ References
+\end_layout
+
+\begin_layout Standard
+[1] David W.
+ Cearley, Brian Burke, Samantha Searle and Mike J.
+ Walker.
+ 
+\shape italic
+\color black
+Top 10 Strategic Technology Trends for 2018 
+\shape default
+(2017).
+ Gartner, Inc.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[2] Robert Spangenberg, Daniel Goehring and Raúl Rojas.
+ 
+\shape italic
+\color black
+Pole-based Localization for Autonomous Vehicles in Urban Scenarios
+\shape default
+\color inherit
+.
+ IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+ (2016).
+ 
+\color black
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[3] 
+\begin_inset CommandInset href
+LatexCommand href
+name "Avalinguo Project Link"
+target "https://tec.mx/es/noticias/nacional/investigacion/realidad-virtual-para-popularizar-el-aprendizaje-de-idiomas"
+
+\end_inset
+
+ 
+\color black
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[4] Karol J.
+ Piczak.
+ 
+\shape italic
+\color black
+Environmental Sound Classification with Convolutional Neural Networks
+\shape default
+\color inherit
+.
+ IEEE International Workshop On Machine Learning For Signal Processing (2015).
+ Boston, USA.
+\color black
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[5] Micha Wetzel, Matthias Sperber and Alexander Waibel.
+ 
+\shape italic
+Audio Segmentation for Robust Real-Time Speech Recognition Based on Neural
+ Networks
+\shape default
+ (2016).
+\color black
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[6] Toni Heittola, Emre Çakır and Tuomas Virtanen.
+ 
+\shape italic
+\color black
+The Machine Learning Approach for Analysis of Sound Scenes and Events
+\shape default
+\color inherit
+.
+ Springer International Publishing AG (2018).
+\color black
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[7] Ashutosh Kulkarni, Deepak Iyer and Srinivasa Rangan Sridharan.
+ 
+\shape italic
+Audio Segmentation
+\shape default
+.
+ Stanford University.
+\color black
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[8] Iulian Vlad Serban, Ryan Lowe, Peter Henderson, Laurent Charlin and
+ Joelle Pineau.
+ 
+\shape italic
+\color black
+A Survey of Available Corpora for Building Data-Driven Dialogue Systems
+\shape default
+\color inherit
+.
+ arXiv:1512.05742v3 (2017).
+\color black
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[9] 
+\begin_inset CommandInset href
+LatexCommand href
+name "UC Santa Barbara Corpus of Spoken American English"
+target "http://www.linguistics.ucsb.edu/research/santa-barbara-corpus"
+
+\end_inset
+
+ 
+\color black
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[10] David Snyder, Guoguo Chen and Daniel Povey.
+ 
+\shape italic
+\color black
+MUSAN: A Music, Speech, and Noise Corpus
+\shape default
+\color inherit
+.
+ In: Computing Research Repository (2015).
+\color black
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[11] 
+\begin_inset CommandInset href
+LatexCommand href
+name "Github repository of the Avalinguo Audio Set"
+target "https://github.com/agrija9"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[12] Maxime Jumelle and Taqiyeddine Sakmeche.
+
+\shape italic
+ Speaker Clustering With Neural Networks And Audio Processing
+\shape default
+.
+ arXiv: 1803.08276v1 (2018).
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[13] David Rybach, Christian Gollan, Ralf Schlüter and Hermann Ney.
+ 
+\shape italic
+Audio Segmentation for Speech Recognition Using Segment Features
+\shape default
+.
+ ICASSP (2009).
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[14] Manpreet Kaur and Amanpreet Kaur.
+ 
+\shape italic
+A Review: Different methods of segmenting a continuous speech signal into
+ basic units
+\shape default
+.
+ International Journal Of Engineering And Computer Science (2013).
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[15] 
+\begin_inset CommandInset href
+LatexCommand href
+name "Link to Python interface to the WebRTC Voice Activity Detector."
+target "https://github.com/wiseman/py-webrtcvad"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[16] 
+\begin_inset CommandInset href
+LatexCommand href
+name "Link to code for paper replication (github)."
+target "https://github.com/agrija9"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[17] Karol J.
+ Piczak.
+ 
+\shape italic
+ESC: Dataset for Environmental Sound Classification
+\shape default
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[18] Sepp Hochreiter and Jurgen Schmidhuber.
+ 
+\shape italic
+LONG SHORT-TERM MEMORY
+\shape default
+.
+ Neural Computation 9(8):1735-1780 (1997).
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[19] Huy Phan, Philipp Koch, Fabrice Katzberg, Marco Maass, Radoslaw Mazur
+ and Alfred Mertins.
+ 
+\shape italic
+Audio Scene Classification with Deep Recurrent Neural Networks
+\shape default
+.
+ arXiv:1703.04770v2 (2017).
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[20] Pedregosa et al., 
+\shape italic
+Scikit-learn: Machine Learning in Python
+\shape default
+, JMLR 12, pp.
+ 2825-2830 (2011).
+\end_layout
+
+\begin_layout Subsubsection*
+Acknowledgments
+\end_layout
+
+\begin_layout Standard
+I would like to thank Prof.
+ Brena from the Intelligent Systems Department at ITESM for me allowing
+ to work in his group, for his guidance and support throughout my participation
+ in this project.
+ Special thanks to the people involved in the construction of the dataset
+ and to the Language Center at ITESM for providing useful audio recordings.
+ I'm thankful also with my cousin Eduardo who provided me with housing during
+ my internship in Monterrey.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{multicols}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -76,5 +76,5 @@ Thereafter, one can proceed to train the models with these two files.
 - CNN: 92.75% 
 - RNN: 89.01%
 
-More details on the training hyper-parameters and accuracies achieved can be found in the ```Code/Experimental Results``` folder, as well as in the attached Report/Report Final Draft.pdf``` file.
+More details on the training hyper-parameters and accuracies achieved can be found in the ```Code/Experimental Results``` folder, as well as in the attached ```Report/Report Final Draft.pdf``` file.
 
